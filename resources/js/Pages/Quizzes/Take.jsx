@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 export default function Take({ quiz }) {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    // Initialize answer state for all questions upfront
     const { data, setData, post, processing } = useForm({
         quiz_id: quiz.id,
         answers: quiz.questions.map(q => ({
