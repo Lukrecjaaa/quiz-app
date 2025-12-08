@@ -25,6 +25,7 @@
     "dependencies": {
         "@mdi/js": "^7.4.47",
         "@mdi/react": "^1.6.1",
+        "canvas-confetti": "^1.9.4",
         "recharts": "^3.5.1"
     }
 }

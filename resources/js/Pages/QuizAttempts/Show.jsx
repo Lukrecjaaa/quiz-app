@@ -1,6 +1,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useEffect } from 'react';
+import confetti from 'canvas-confetti';
 
 export default function Show({ attempt, percentile, scoreDistribution }) {
     const chartData = Object.entries(scoreDistribution).map(([range, count]) => ({
@@ -9,6 +11,32 @@ export default function Show({ attempt, percentile, scoreDistribution }) {
     }));
 
     const passed = attempt.percentage >= 60;
+
+    useEffect(() => {
+        if (attempt.percentage >= 80) {
+            const duration = 3000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+
+            return () => clearInterval(interval);
+        }
+    }, [attempt.percentage]);
 
     return (
         <AuthenticatedLayout
@@ -22,24 +50,50 @@ export default function Show({ attempt, percentile, scoreDistribution }) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-4xl sm:px-6 lg:px-8 space-y-6">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                        <div className="text-center mb-6">
-                            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                    <div className="bg-white overflow-hidden shadow-lg sm:rounded-lg p-8 border-t-4 border-blue-500">
+                        <div className="text-center mb-8">
+                            <h3 className="text-3xl font-bold text-gray-900 mb-4">
                                 {attempt.quiz.title}
                             </h3>
-                            <div className={`text-5xl font-bold mb-4 ${passed ? 'text-green-600' : 'text-orange-600'}`}>
+                            <div className={`text-7xl font-bold mb-6 animate-pulse ${passed ? 'text-green-600' : 'text-orange-600'}`}>
                                 {attempt.percentage}%
                             </div>
-                            <div className="text-gray-600">
-                                Score: {attempt.score} / {attempt.max_score}
+                            <div className="text-xl text-gray-700 mb-2">
+                                Score: <span className="font-bold">{attempt.score}</span> / {attempt.max_score}
                             </div>
+                            {attempt.percentage >= 90 && (
+                                <div className="text-2xl font-bold text-purple-600 animate-bounce mt-4">
+                                    OUTSTANDING!
+                                </div>
+                            )}
+                            {attempt.percentage >= 80 && attempt.percentage < 90 && (
+                                <div className="text-xl font-semibold text-green-600 mt-4">
+                                    Excellent Work!
+                                </div>
+                            )}
+                            {attempt.percentage >= 60 && attempt.percentage < 80 && (
+                                <div className="text-lg font-medium text-blue-600 mt-4">
+                                    Good Job!
+                                </div>
+                            )}
+                            {attempt.percentage < 60 && (
+                                <div className="text-lg font-medium text-orange-600 mt-4">
+                                    Keep Practicing!
+                                </div>
+                            )}
                         </div>
 
                         <div className="border-t pt-6">
-                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                                <p className="text-blue-900 text-center font-medium">
-                                    You scored better than {percentile}% of users who took this quiz!
+                            <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-300 rounded-xl p-6 mb-6 shadow-md">
+                                <p className="text-blue-900 text-center font-bold text-xl">
+                                    You scored better than <span className="text-3xl text-purple-600">{percentile}%</span> of users!
                                 </p>
+                                <div className="mt-3 w-full bg-gray-200 rounded-full h-3">
+                                    <div
+                                        className="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full transition-all duration-1000"
+                                        style={{ width: `${percentile}%` }}
+                                    ></div>
+                                </div>
                             </div>
 
                             <h4 className="text-lg font-semibold text-gray-900 mb-4">
