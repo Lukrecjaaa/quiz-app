@@ -35,10 +35,12 @@ class QuizAttemptController extends Controller
 
         $correctCount = 0;
 
+        // Process each answer and determine correctness
         foreach ($validated['answers'] as $answer) {
             $question = $quiz->questions->firstWhere('id', $answer['question_id']);
             $isCorrect = false;
 
+            // Text input questions use case-insensitive comparison
             if ($question->question_type === 'text_input') {
                 $correctOption = $question->options->where('is_correct', true)->first();
                 if ($correctOption && isset($answer['text_answer'])) {
@@ -82,6 +84,7 @@ class QuizAttemptController extends Controller
             'userAnswers.selectedOption'
         ]);
 
+        // Calculate percentile ranking compared to other users
         $totalAttempts = QuizAttempt::where('quiz_id', $attempt->quiz_id)->count();
         $lowerScoreAttempts = QuizAttempt::where('quiz_id', $attempt->quiz_id)
             ->where('percentage', '<', $attempt->percentage)
@@ -89,6 +92,7 @@ class QuizAttemptController extends Controller
 
         $percentile = $totalAttempts > 0 ? round(($lowerScoreAttempts / $totalAttempts) * 100, 1) : 0;
 
+        // Build score distribution for chart display
         $scoreRanges = [
             '0-20%' => 0, '21-40%' => 0, '41-60%' => 0, '61-80%' => 0, '81-100%' => 0
         ];
