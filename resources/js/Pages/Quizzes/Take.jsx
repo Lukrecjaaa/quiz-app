@@ -1,4 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import PrimaryButton from '@/Components/PrimaryButton';
+import SecondaryButton from '@/Components/SecondaryButton';
 import { Head, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -44,35 +46,41 @@ export default function Take({ quiz }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    {quiz.title}
+                <h2 className="flex items-center gap-2 text-2xl font-comfortaa font-bold leading-tight text-pastel-purple-700">
+                    <span>{quiz.title}</span>
+                    <span className="text-3xl">🌸</span>
                 </h2>
             }
         >
             <Head title={`Taking ${quiz.title}`} />
 
-            <div className="py-12">
+            <div className="relative py-12">
+                <div className="absolute left-6 top-12 text-8xl opacity-10">🌷</div>
+                <div className="absolute right-6 bottom-10 text-7xl opacity-20">💮</div>
                 <div className="mx-auto max-w-3xl sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8 border-t-4 border-purple-500">
-                        <div className="mb-8">
-                            <div className="flex justify-between items-center mb-3">
-                                <span className="text-sm font-semibold text-gray-700 bg-blue-100 px-3 py-1 rounded-full">
+                    <div className="girly-card relative overflow-hidden rounded-3xl border-4 border-cute-pink-100 p-8 shadow-2xl polka-dots">
+                        <div className="absolute -right-8 -top-8 text-8xl opacity-10">✨</div>
+                        <div className="absolute -left-6 bottom-6 text-6xl opacity-10">🌺</div>
+                        <div className="relative mb-8">
+                            <div className="mb-3 flex items-center justify-between">
+                                <span className="rounded-full bg-white/80 px-4 py-2 text-sm font-comfortaa font-bold text-pastel-purple-600 shadow-md">
                                     Question {currentQuestionIndex + 1} of {quiz.questions.length}
                                 </span>
-                                <span className="text-sm font-semibold text-gray-700 bg-green-100 px-3 py-1 rounded-full">
+                                <span className="rounded-full bg-gradient-to-r from-cute-pink-200 to-pastel-lavender-200 px-4 py-2 text-sm font-comfortaa font-bold text-pastel-purple-700 shadow-md">
                                     {Math.round(progress)}% Complete
                                 </span>
                             </div>
-                            <div className="w-full bg-gray-200 rounded-full h-3 shadow-inner">
+                            <div className="h-3 w-full rounded-full bg-white/60 shadow-inner">
                                 <div
-                                    className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-3 rounded-full transition-all duration-500 shadow-lg"
+                                    className="h-3 rounded-full bg-gradient-to-r from-cute-pink-400 via-pastel-lavender-400 to-pastel-purple-400 shadow-lg transition-all duration-500"
                                     style={{ width: `${progress}%` }}
                                 ></div>
                             </div>
                         </div>
 
-                        <div className="mb-8 bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-xl">
-                            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                        <div className="relative mb-8 rounded-2xl bg-gradient-to-br from-cute-pink-50 via-white to-pastel-lavender-50 p-6 shadow-inner">
+                            <div className="sparkle absolute right-4 top-4 h-4 w-4"></div>
+                            <h3 className="mb-6 text-2xl font-comfortaa font-bold text-pastel-purple-700">
                                 {currentQuestion.question_text}
                             </h3>
 
@@ -81,7 +89,7 @@ export default function Take({ quiz }) {
                                     type="text"
                                     value={data.answers[currentQuestionIndex].text_answer}
                                     onChange={(e) => handleTextInput(e.target.value)}
-                                    className="w-full border-2 border-gray-300 rounded-xl shadow-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 p-4 text-lg transition-all"
+                                    className="w-full rounded-2xl border-2 border-cute-pink-100 bg-white/80 p-4 text-lg font-quicksand text-pastel-purple-700 shadow-lg placeholder:text-pastel-lavender-400 focus:border-pastel-purple-300 focus:ring-4 focus:ring-cute-pink-100 transition-all"
                                     placeholder="Type your answer here"
                                 />
                             ) : (
@@ -89,10 +97,10 @@ export default function Take({ quiz }) {
                                     {currentQuestion.options.map(option => (
                                         <label
                                             key={option.id}
-                                            className={`flex items-center p-5 border-2 rounded-xl cursor-pointer transition-all transform hover:scale-102 hover:shadow-lg ${
+                                            className={`flex items-center rounded-2xl border-2 p-5 font-quicksand cursor-pointer transition-all transform hover:scale-[1.01] hover:shadow-lg ${
                                                 data.answers[currentQuestionIndex].selected_option_id === option.id
-                                                    ? 'border-purple-500 bg-purple-100 shadow-md scale-102'
-                                                    : 'border-gray-300 bg-white hover:bg-gray-50'
+                                                    ? 'border-cute-pink-300 bg-gradient-to-r from-cute-pink-50 via-white to-pastel-lavender-50 shadow-md scale-[1.02]'
+                                                    : 'border-cute-pink-100 bg-white hover:bg-cute-pink-50'
                                             }`}
                                         >
                                             <input
@@ -101,42 +109,42 @@ export default function Take({ quiz }) {
                                                 value={option.id}
                                                 checked={data.answers[currentQuestionIndex].selected_option_id === option.id}
                                                 onChange={() => handleOptionSelect(option.id)}
-                                                className="mr-4 w-5 h-5"
+                                                className="mr-4 h-5 w-5 text-cute-pink-400 focus:ring-cute-pink-300"
                                             />
-                                            <span className="text-lg font-medium">{option.option_text}</span>
+                                            <span className="text-lg font-semibold text-pastel-purple-700">{option.option_text}</span>
                                         </label>
                                     ))}
                                 </div>
                             )}
                         </div>
 
-                        <div className="flex justify-between items-center pt-4">
-                            <button
+                        <div className="flex items-center justify-between pt-4">
+                            <SecondaryButton
                                 type="button"
                                 onClick={handlePrevious}
                                 disabled={currentQuestionIndex === 0}
-                                className="px-6 py-3 text-gray-700 font-semibold hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105"
+                                className="bg-white/80 text-pastel-purple-600 hover:text-pastel-purple-700"
                             >
                                 ← Previous
-                            </button>
+                            </SecondaryButton>
 
                             {currentQuestionIndex < quiz.questions.length - 1 ? (
-                                <button
+                                <PrimaryButton
                                     type="button"
                                     onClick={handleNext}
-                                    className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-xl shadow-lg transform hover:scale-105 transition-all"
+                                    className="px-8 shadow-xl"
                                 >
                                     Next →
-                                </button>
+                                </PrimaryButton>
                             ) : (
-                                <button
+                                <PrimaryButton
                                     type="button"
                                     onClick={() => post(route('quiz-attempts.store'))}
                                     disabled={processing}
-                                    className="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-xl shadow-lg transform hover:scale-105 transition-all disabled:opacity-50 disabled:hover:scale-100"
+                                    className="px-8 shadow-xl"
                                 >
-                                    Submit Quiz
-                                </button>
+                                    Submit Quiz ✨
+                                </PrimaryButton>
                             )}
                         </div>
                     </div>

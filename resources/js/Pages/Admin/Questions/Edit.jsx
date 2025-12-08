@@ -1,6 +1,10 @@
+import InputError from '@/Components/InputError';
+import InputLabel from '@/Components/InputLabel';
+import PrimaryButton from '@/Components/PrimaryButton';
+import TextInput from '@/Components/TextInput';
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, useForm, Link } from '@inertiajs/react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Edit({ quiz, question }) {
     const [questionType, setQuestionType] = useState(question.question_type);
@@ -56,41 +60,38 @@ export default function Edit({ quiz, question }) {
     return (
         <AdminLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Edit Question
+                <h2 className="flex items-center gap-2 text-2xl font-comfortaa font-bold leading-tight text-pastel-purple-700">
+                    <span>Edit Question</span>
+                    <span className="text-3xl">🌼</span>
                 </h2>
             }
         >
             <Head title="Edit Question" />
 
-            <div className="py-12">
+            <div className="relative py-12">
+                <div className="absolute left-6 top-10 text-7xl opacity-10">🌺</div>
+                <div className="absolute right-8 bottom-12 text-6xl opacity-10">✨</div>
                 <div className="mx-auto max-w-3xl sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-4">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Question Text
-                                </label>
+                    <div className="girly-card overflow-hidden rounded-3xl p-8 shadow-2xl">
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div>
+                                <InputLabel value="Question Text" className="mb-2" />
                                 <textarea
                                     value={data.question_text}
                                     onChange={(e) => setData('question_text', e.target.value)}
                                     rows="3"
-                                    className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                    className="w-full rounded-2xl border-2 border-cute-pink-100 bg-white/80 p-4 font-quicksand text-pastel-purple-700 shadow-md placeholder:text-pastel-lavender-400 focus:border-pastel-purple-300 focus:ring-4 focus:ring-cute-pink-100 transition-all"
                                     required
                                 ></textarea>
-                                {errors.question_text && (
-                                    <div className="text-red-600 text-sm mt-1">{errors.question_text}</div>
-                                )}
+                                <InputError message={errors.question_text} className="mt-2 text-rose-500" />
                             </div>
 
-                            <div className="mb-6">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Question Type
-                                </label>
+                            <div>
+                                <InputLabel value="Question Type" className="mb-2" />
                                 <select
                                     value={questionType}
                                     onChange={(e) => handleTypeChange(e.target.value)}
-                                    className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                    className="w-full rounded-2xl border-2 border-cute-pink-100 bg-white/80 p-3 font-quicksand text-pastel-purple-700 shadow-md focus:border-pastel-purple-300 focus:ring-4 focus:ring-cute-pink-100 transition-all"
                                 >
                                     <option value="multiple_choice">Multiple Choice</option>
                                     <option value="true_false">True/False</option>
@@ -98,38 +99,36 @@ export default function Edit({ quiz, question }) {
                                 </select>
                             </div>
 
-                            <div className="mb-6">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    {questionType === 'text_input' ? 'Correct Answer' : 'Options'}
-                                </label>
+                            <div>
+                                <InputLabel value={questionType === 'text_input' ? 'Correct Answer' : 'Options'} className="mb-2" />
                                 <div className="space-y-3">
                                     {data.options.map((option, index) => (
-                                        <div key={index} className="flex items-center space-x-2">
-                                            <input
+                                        <div key={index} className="flex flex-col gap-3 rounded-2xl border border-cute-pink-100 bg-white/70 p-4 shadow-inner sm:flex-row sm:items-center">
+                                            <TextInput
                                                 type="text"
                                                 value={option.text}
                                                 onChange={(e) => handleOptionChange(index, 'text', e.target.value)}
                                                 placeholder={questionType === 'text_input' ? 'Correct answer' : `Option ${index + 1}`}
-                                                className="flex-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                                className="w-full flex-1"
                                                 required
                                                 readOnly={questionType === 'true_false'}
                                             />
                                             {questionType !== 'text_input' && (
-                                                <label className="flex items-center">
+                                                <label className="flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm font-comfortaa text-pastel-purple-700 shadow-sm">
                                                     <input
                                                         type={questionType === 'true_false' ? 'radio' : 'checkbox'}
                                                         checked={option.is_correct}
                                                         onChange={(e) => handleOptionChange(index, 'is_correct', e.target.checked)}
-                                                        className="mr-2"
+                                                        className="h-4 w-4 accent-cute-pink-400"
                                                     />
-                                                    <span className="text-sm text-gray-600">Correct</span>
+                                                    Correct
                                                 </label>
                                             )}
                                             {questionType === 'multiple_choice' && data.options.length > 2 && (
                                                 <button
                                                     type="button"
                                                     onClick={() => handleRemoveOption(index)}
-                                                    className="text-red-600 hover:text-red-900"
+                                                    className="inline-flex items-center rounded-full border-2 border-rose-200 px-3 py-1 font-comfortaa text-sm font-semibold text-rose-500 transition hover:scale-105 hover:bg-rose-50"
                                                 >
                                                     Remove
                                                 </button>
@@ -141,27 +140,23 @@ export default function Edit({ quiz, question }) {
                                     <button
                                         type="button"
                                         onClick={handleAddOption}
-                                        className="mt-3 text-blue-600 hover:text-blue-900 text-sm"
+                                        className="mt-3 inline-flex items-center rounded-full border-2 border-cute-pink-200 px-4 py-1 text-sm font-comfortaa font-semibold text-cute-pink-500 transition hover:scale-105 hover:bg-cute-pink-50"
                                     >
                                         + Add Option
                                     </button>
                                 )}
                             </div>
 
-                            <div className="flex justify-between">
+                            <div className="flex items-center justify-between">
                                 <Link
                                     href={route('admin.quizzes.edit', quiz.id)}
-                                    className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg"
+                                    className="inline-flex items-center rounded-full border-2 border-pastel-lavender-200 bg-white/80 px-5 py-2 font-comfortaa font-semibold text-pastel-purple-600 shadow-md transition hover:scale-105 hover:bg-pastel-lavender-50"
                                 >
                                     Cancel
                                 </Link>
-                                <button
-                                    type="submit"
-                                    disabled={processing}
-                                    className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50"
-                                >
+                                <PrimaryButton type="submit" disabled={processing} className="px-8 shadow-xl">
                                     Update Question
-                                </button>
+                                </PrimaryButton>
                             </div>
                         </form>
                     </div>

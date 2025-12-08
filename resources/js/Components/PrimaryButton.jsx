@@ -8,13 +8,15 @@ export default function PrimaryButton({
         <button
             {...props}
             className={
-                `inline-flex items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900 ${
-                    disabled && 'opacity-25'
+                `inline-flex items-center rounded-full border-2 border-pink-300 bg-gradient-to-r from-pink-400 via-pink-500 to-rose-500 px-6 py-3 font-quicksand text-sm font-bold text-white shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:from-pink-500 hover:via-pink-600 hover:to-rose-600 focus:outline-none focus:ring-4 focus:ring-pink-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${
+                    disabled && 'opacity-50'
                 } ` + className
             }
             disabled={disabled}
         >
-            {children}
+            <span className="relative">
+                {children}
+            </span>
         </button>
     );
 }

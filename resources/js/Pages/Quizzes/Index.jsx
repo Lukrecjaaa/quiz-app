@@ -5,32 +5,38 @@ export default function Index({ quizzes }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Available Quizzes
+                <h2 className="flex items-center gap-2 text-2xl font-comfortaa font-bold leading-tight text-pastel-purple-700">
+                    <span>Available Quizzes</span>
+                    <span className="text-3xl">✨</span>
                 </h2>
             }
         >
             <Head title="Quizzes" />
 
-            <div className="py-12">
+            <div className="relative py-12">
+                <div className="absolute -left-6 top-8 text-7xl opacity-20">🌸</div>
+                <div className="absolute right-8 bottom-10 text-6xl opacity-20">🌺</div>
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     {quizzes.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                             {quizzes.map(quiz => (
                                 <Link
                                     key={quiz.id}
                                     href={route('quizzes.show', quiz.id)}
-                                    className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 hover:shadow-md transition-shadow"
+                                    className="girly-card relative overflow-hidden rounded-3xl p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl polka-dots-large"
                                 >
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                                    <div className="absolute -right-3 -top-3 text-5xl opacity-25">🌷</div>
+                                    <h3 className="mb-2 text-xl font-comfortaa font-bold text-pastel-purple-700">
                                         {quiz.title}
                                     </h3>
-                                    <p className="text-gray-600 text-sm mb-4">
+                                    <p className="mb-4 text-sm font-quicksand text-pastel-lavender-600">
                                         {quiz.description}
                                     </p>
-                                    <div className="flex justify-between items-center text-sm text-gray-500">
-                                        <span>{quiz.questions_count} questions</span>
-                                        <span className="text-blue-600 hover:text-blue-800">
+                                    <div className="flex items-center justify-between text-sm text-pastel-lavender-600">
+                                        <span className="inline-flex items-center gap-1 rounded-full bg-white/70 px-3 py-1 font-semibold shadow-sm">
+                                            {quiz.questions_count} questions
+                                        </span>
+                                        <span className="rounded-full bg-gradient-to-r from-cute-pink-300 to-pastel-lavender-300 px-4 py-2 font-comfortaa font-bold text-white shadow-lg">
                                             View Quiz →
                                         </span>
                                     </div>
@@ -38,8 +44,8 @@ export default function Index({ quizzes }) {
                             ))}
                         </div>
                     ) : (
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                            <p className="text-gray-500">No quizzes available yet.</p>
+                        <div className="girly-card rounded-3xl p-8 text-center shadow-xl">
+                            <p className="text-pastel-lavender-600">No quizzes available yet. Stay tuned for something cute!</p>
                         </div>
                     )}
                 </div>

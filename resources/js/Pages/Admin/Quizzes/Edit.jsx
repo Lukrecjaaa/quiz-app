@@ -1,3 +1,8 @@
+import Checkbox from '@/Components/Checkbox';
+import InputError from '@/Components/InputError';
+import InputLabel from '@/Components/InputLabel';
+import PrimaryButton from '@/Components/PrimaryButton';
+import TextInput from '@/Components/TextInput';
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, useForm, Link, router } from '@inertiajs/react';
 
@@ -22,83 +27,71 @@ export default function Edit({ quiz }) {
     return (
         <AdminLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Edit Quiz
+                <h2 className="flex items-center gap-2 text-2xl font-comfortaa font-bold leading-tight text-pastel-purple-700">
+                    <span>Edit Quiz</span>
+                    <span className="text-3xl">🌺</span>
                 </h2>
             }
         >
             <Head title="Edit Quiz" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-4xl sm:px-6 lg:px-8 space-y-6">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-4">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Quiz Title
-                                </label>
-                                <input
-                                    type="text"
+            <div className="relative py-12">
+                <div className="absolute left-6 top-10 text-7xl opacity-10">🌸</div>
+                <div className="absolute right-8 bottom-12 text-6xl opacity-10">✨</div>
+                <div className="mx-auto max-w-4xl space-y-6 sm:px-6 lg:px-8">
+                    <div className="girly-card overflow-hidden rounded-3xl p-8 shadow-2xl">
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div>
+                                <InputLabel value="Quiz Title" className="mb-2" />
+                                <TextInput
                                     value={data.title}
                                     onChange={(e) => setData('title', e.target.value)}
-                                    className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                    className="w-full"
                                     required
                                 />
-                                {errors.title && (
-                                    <div className="text-red-600 text-sm mt-1">{errors.title}</div>
-                                )}
+                                <InputError message={errors.title} className="mt-2 text-rose-500" />
                             </div>
 
-                            <div className="mb-4">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Description
-                                </label>
+                            <div>
+                                <InputLabel value="Description" className="mb-2" />
                                 <textarea
                                     value={data.description}
                                     onChange={(e) => setData('description', e.target.value)}
                                     rows="4"
-                                    className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                    className="w-full rounded-2xl border-2 border-cute-pink-100 bg-white/80 p-4 font-quicksand text-pastel-purple-700 shadow-md placeholder:text-pastel-lavender-400 focus:border-pastel-purple-300 focus:ring-4 focus:ring-cute-pink-100 transition-all"
                                 ></textarea>
                             </div>
 
-                            <div className="mb-6">
-                                <label className="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        checked={data.is_published}
-                                        onChange={(e) => setData('is_published', e.target.checked)}
-                                        className="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                    />
-                                    <span className="ml-2 text-sm text-gray-700">
-                                        Published
-                                    </span>
-                                </label>
+                            <div className="flex items-center gap-3 rounded-2xl bg-white/80 p-4 shadow-inner">
+                                <Checkbox
+                                    checked={data.is_published}
+                                    onChange={(e) => setData('is_published', e.target.checked)}
+                                />
+                                <span className="text-sm font-quicksand text-pastel-purple-700">
+                                    Published
+                                </span>
                             </div>
 
-                            <div className="flex justify-between">
+                            <div className="flex items-center justify-between pt-2">
                                 <Link
                                     href={route('admin.quizzes.index')}
-                                    className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg"
+                                    className="inline-flex items-center rounded-full border-2 border-pastel-lavender-200 bg-white/80 px-5 py-2 font-comfortaa font-semibold text-pastel-purple-600 shadow-md transition hover:scale-105 hover:bg-pastel-lavender-50"
                                 >
                                     Back to List
                                 </Link>
-                                <button
-                                    type="submit"
-                                    disabled={processing}
-                                    className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50"
-                                >
+                                <PrimaryButton type="submit" disabled={processing} className="px-8 shadow-xl">
                                     Update Quiz
-                                </button>
+                                </PrimaryButton>
                             </div>
                         </form>
                     </div>
 
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-lg font-semibold">Questions</h3>
+                    <div className="girly-card overflow-hidden rounded-3xl p-8 shadow-2xl">
+                        <div className="mb-4 flex items-center justify-between">
+                            <h3 className="text-lg font-comfortaa font-bold text-pastel-purple-700">Questions</h3>
                             <Link
                                 href={route('admin.quizzes.questions.create', quiz.id)}
-                                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg"
+                                className="inline-flex items-center rounded-full border-2 border-cute-pink-200 bg-gradient-to-r from-cute-pink-400 via-cute-pink-500 to-pastel-purple-400 px-5 py-2 font-comfortaa font-bold text-white shadow-lg transition hover:scale-105"
                             >
                                 Add Question
                             </Link>
@@ -107,34 +100,34 @@ export default function Edit({ quiz }) {
                         {quiz.questions.length > 0 ? (
                             <div className="space-y-3">
                                 {quiz.questions.map((question, index) => (
-                                    <div key={question.id} className="border rounded-lg p-4">
-                                        <div className="flex justify-between items-start">
+                                    <div key={question.id} className="rounded-2xl border border-cute-pink-100 bg-white/80 p-4 shadow-inner">
+                                        <div className="flex items-start justify-between">
                                             <div className="flex-1">
-                                                <div className="font-medium text-gray-900 mb-2">
+                                                <div className="mb-2 font-semibold text-pastel-purple-700">
                                                     {index + 1}. {question.question_text}
                                                 </div>
-                                                <div className="text-sm text-gray-500 mb-2">
+                                                <div className="mb-2 text-sm font-quicksand text-pastel-lavender-700">
                                                     Type: {question.question_type.replace('_', ' ')}
                                                 </div>
-                                                <div className="text-sm text-gray-600">
+                                                <div className="space-y-1 text-sm font-quicksand text-pastel-purple-700">
                                                     {question.options.map(option => (
-                                                        <div key={option.id} className={option.is_correct ? 'font-semibold' : ''}>
+                                                        <div key={option.id} className={option.is_correct ? 'font-semibold text-cute-pink-500' : ''}>
                                                             {option.is_correct ? '✓ ' : '- '}
                                                             {option.option_text}
                                                         </div>
                                                     ))}
                                                 </div>
                                             </div>
-                                            <div className="flex space-x-2 ml-4">
+                                            <div className="ml-4 flex space-x-2">
                                                 <Link
                                                     href={route('admin.quizzes.questions.edit', [quiz.id, question.id])}
-                                                    className="text-blue-600 hover:text-blue-900 text-sm"
+                                                    className="inline-flex items-center rounded-full border-2 border-cute-pink-200 px-3 py-1 font-comfortaa font-semibold text-cute-pink-500 transition hover:scale-105 hover:bg-cute-pink-50"
                                                 >
                                                     Edit
                                                 </Link>
                                                 <button
                                                     onClick={() => handleDeleteQuestion(question.id)}
-                                                    className="text-red-600 hover:text-red-900 text-sm"
+                                                    className="inline-flex items-center rounded-full border-2 border-rose-200 px-3 py-1 font-comfortaa font-semibold text-rose-500 transition hover:scale-105 hover:bg-rose-50"
                                                 >
                                                     Delete
                                                 </button>
@@ -144,7 +137,7 @@ export default function Edit({ quiz }) {
                                 ))}
                             </div>
                         ) : (
-                            <p className="text-gray-500">No questions yet. Add some questions to get started!</p>
+                            <p className="text-pastel-lavender-700">No questions yet. Add some questions to get started!</p>
                         )}
                     </div>
                 </div>

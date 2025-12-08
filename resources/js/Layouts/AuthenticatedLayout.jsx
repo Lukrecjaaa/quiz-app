@@ -12,14 +12,22 @@ export default function AuthenticatedLayout({ header, children }) {
         useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="border-b border-gray-100 bg-white">
+        <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-cute-pink-50 via-pastel-lavender-50 to-pastel-purple-50">
+            <div className="floating-flowers">
+                <span className="flower">🌸</span>
+                <span className="flower">🌺</span>
+                <span className="flower">🌷</span>
+                <span className="flower">🏵️</span>
+                <span className="flower">🌼</span>
+                <span className="flower">💮</span>
+            </div>
+            <nav className="relative z-20 border-b-4 border-pastel-lavender-200 bg-gradient-to-r from-cute-pink-200 via-pastel-lavender-200 to-pastel-purple-200 shadow-xl backdrop-blur">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
                                 <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
+                                    <ApplicationLogo className="block h-10 w-auto fill-current text-pastel-purple-600 drop-shadow-lg" />
                                 </Link>
                             </div>
 
@@ -27,6 +35,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                 <NavLink
                                     href={route('dashboard')}
                                     active={route().current('dashboard')}
+                                    className="text-pastel-purple-700 font-comfortaa font-semibold hover:text-pastel-purple-800"
                                 >
                                     Dashboard
                                 </NavLink>
@@ -37,7 +46,7 @@ export default function AuthenticatedLayout({ header, children }) {
                             {user.is_admin && (
                                 <Link
                                     href={route('admin.dashboard')}
-                                    className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white text-sm font-medium rounded transition"
+                                    className="px-4 py-2 bg-white hover:bg-pastel-lavender-50 text-pastel-lavender-500 text-sm font-comfortaa font-bold rounded-full transition shadow-md border-2 border-pastel-lavender-200"
                                 >
                                     Admin Panel
                                 </Link>
@@ -48,7 +57,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                                                className="inline-flex items-center rounded-full border-2 border-cute-pink-200 bg-white px-4 py-2 text-sm font-comfortaa font-bold leading-4 text-cute-pink-400 transition duration-150 ease-in-out hover:bg-cute-pink-50 focus:outline-none shadow-md"
                                             >
                                                 {user.name}
 
@@ -93,7 +102,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                         (previousState) => !previousState,
                                     )
                                 }
-                                className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
+                                className="inline-flex items-center justify-center rounded-md p-2 text-pastel-purple-500 transition duration-150 ease-in-out hover:bg-cute-pink-50 hover:text-pastel-purple-700 focus:bg-cute-pink-50 focus:text-pastel-purple-700 focus:outline-none"
                             >
                                 <svg
                                     className="h-6 w-6"
@@ -152,12 +161,12 @@ export default function AuthenticatedLayout({ header, children }) {
                         )}
                     </div>
 
-                    <div className="border-t border-gray-200 pb-1 pt-4">
+                    <div className="border-t border-cute-pink-100 bg-white/70 pb-1 pt-4 backdrop-blur">
                         <div className="px-4">
-                            <div className="text-base font-medium text-gray-800">
+                            <div className="text-base font-comfortaa font-semibold text-pastel-purple-700">
                                 {user.name}
                             </div>
-                            <div className="text-sm font-medium text-gray-500">
+                            <div className="text-sm font-quicksand font-medium text-pastel-lavender-600">
                                 {user.email}
                             </div>
                         </div>
@@ -179,14 +188,14 @@ export default function AuthenticatedLayout({ header, children }) {
             </nav>
 
             {header && (
-                <header className="bg-white shadow">
+                <header className="relative z-10 bg-white/80 shadow-lg border-b-4 border-cute-pink-100 backdrop-blur polka-dots">
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         {header}
                     </div>
                 </header>
             )}
 
-            <main>{children}</main>
+            <main className="relative z-10">{children}</main>
         </div>
     );
 }
