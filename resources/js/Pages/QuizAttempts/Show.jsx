@@ -84,30 +84,41 @@ export default function Show({ attempt, percentile, scoreDistribution }) {
                         </div>
 
                         <div className="border-t pt-6">
-                            <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-300 rounded-xl p-6 mb-6 shadow-md">
-                                <p className="text-blue-900 text-center font-bold text-xl">
-                                    You scored better than <span className="text-3xl text-purple-600">{percentile}%</span> of users!
-                                </p>
-                                <div className="mt-3 w-full bg-gray-200 rounded-full h-3">
-                                    <div
-                                        className="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full transition-all duration-1000"
-                                        style={{ width: `${percentile}%` }}
-                                    ></div>
+                            {scoreDistribution && Object.values(scoreDistribution).reduce((sum, count) => sum + count, 0) > 1 && (
+                                <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-300 rounded-xl p-6 mb-6 shadow-md">
+                                    <p className="text-blue-900 text-center font-bold text-xl">
+                                        You scored better than <span className="text-3xl text-purple-600">{percentile}%</span> of users!
+                                    </p>
+                                    <div className="mt-3 w-full bg-gray-200 rounded-full h-3">
+                                        <div
+                                            className="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full transition-all duration-1000"
+                                            style={{ width: `${percentile}%` }}
+                                        ></div>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
 
-                            <h4 className="text-lg font-semibold text-gray-900 mb-4">
-                                Score Distribution
-                            </h4>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <BarChart data={chartData}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="range" />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Bar dataKey="count" fill="#3b82f6" />
-                                </BarChart>
-                            </ResponsiveContainer>
+                            {scoreDistribution && Object.values(scoreDistribution).reduce((sum, count) => sum + count, 0) > 1 ? (
+                                <>
+                                    <h4 className="text-lg font-semibold text-gray-900 mb-4">
+                                        Score Distribution
+                                    </h4>
+                                    <ResponsiveContainer width="100%" height={300}>
+                                        <BarChart data={chartData}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis dataKey="range" />
+                                            <YAxis />
+                                            <Tooltip />
+                                            <Bar dataKey="count" fill="#3b82f6" />
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                </>
+                            ) : (
+                                <div className="text-center py-8 text-gray-500">
+                                    <p className="text-lg">Be the first to take this quiz!</p>
+                                    <p className="text-sm mt-2">Score distribution will appear once more users complete it.</p>
+                                </div>
+                            )}
                         </div>
                     </div>
 

@@ -74,12 +74,14 @@ export default function Dashboard({ stats, recentAttempts, recentQuizzes }) {
                             ) : (
                                 <p className="text-gray-500">No attempts yet. Start taking quizzes!</p>
                             )}
-                            <Link
-                                href={route('quiz-attempts.my')}
-                                className="mt-4 inline-block text-blue-600 hover:text-blue-800"
-                            >
-                                View all attempts
-                            </Link>
+                            {recentAttempts.length > 0 && (
+                                <Link
+                                    href={route('quiz-attempts.my')}
+                                    className="mt-4 inline-block text-blue-600 hover:text-blue-800"
+                                >
+                                    View all attempts
+                                </Link>
+                            )}
                         </div>
                     </div>
 
