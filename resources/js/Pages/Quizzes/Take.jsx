@@ -41,11 +41,6 @@ export default function Take({ quiz }) {
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        post(route('quiz-attempts.store'));
-    };
-
     return (
         <AuthenticatedLayout
             header={
@@ -76,75 +71,74 @@ export default function Take({ quiz }) {
                             </div>
                         </div>
 
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-8">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                                    {currentQuestion.question_text}
-                                </h3>
+                        <div className="mb-8">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                                {currentQuestion.question_text}
+                            </h3>
 
-                                {currentQuestion.question_type === 'text_input' ? (
-                                    <input
-                                        type="text"
-                                        value={data.answers[currentQuestionIndex].text_answer}
-                                        onChange={(e) => handleTextInput(e.target.value)}
-                                        className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                        placeholder="Type your answer here"
-                                    />
-                                ) : (
-                                    <div className="space-y-3">
-                                        {currentQuestion.options.map(option => (
-                                            <label
-                                                key={option.id}
-                                                className={`flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 ${
-                                                    data.answers[currentQuestionIndex].selected_option_id === option.id
-                                                        ? 'border-blue-500 bg-blue-50'
-                                                        : 'border-gray-300'
-                                                }`}
-                                            >
-                                                <input
-                                                    type="radio"
-                                                    name={`question-${currentQuestion.id}`}
-                                                    value={option.id}
-                                                    checked={data.answers[currentQuestionIndex].selected_option_id === option.id}
-                                                    onChange={() => handleOptionSelect(option.id)}
-                                                    className="mr-3"
-                                                />
-                                                <span>{option.option_text}</span>
-                                            </label>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
+                            {currentQuestion.question_type === 'text_input' ? (
+                                <input
+                                    type="text"
+                                    value={data.answers[currentQuestionIndex].text_answer}
+                                    onChange={(e) => handleTextInput(e.target.value)}
+                                    className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                    placeholder="Type your answer here"
+                                />
+                            ) : (
+                                <div className="space-y-3">
+                                    {currentQuestion.options.map(option => (
+                                        <label
+                                            key={option.id}
+                                            className={`flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 ${
+                                                data.answers[currentQuestionIndex].selected_option_id === option.id
+                                                    ? 'border-blue-500 bg-blue-50'
+                                                    : 'border-gray-300'
+                                            }`}
+                                        >
+                                            <input
+                                                type="radio"
+                                                name={`question-${currentQuestion.id}`}
+                                                value={option.id}
+                                                checked={data.answers[currentQuestionIndex].selected_option_id === option.id}
+                                                onChange={() => handleOptionSelect(option.id)}
+                                                className="mr-3"
+                                            />
+                                            <span>{option.option_text}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
 
-                            <div className="flex justify-between items-center">
+                        <div className="flex justify-between items-center">
+                            <button
+                                type="button"
+                                onClick={handlePrevious}
+                                disabled={currentQuestionIndex === 0}
+                                className="px-4 py-2 text-gray-600 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                ← Previous
+                            </button>
+
+                            {currentQuestionIndex < quiz.questions.length - 1 ? (
                                 <button
                                     type="button"
-                                    onClick={handlePrevious}
-                                    disabled={currentQuestionIndex === 0}
-                                    className="px-4 py-2 text-gray-600 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    onClick={handleNext}
+                                    className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
                                 >
-                                    ← Previous
+                                    Next →
                                 </button>
-
-                                {currentQuestionIndex < quiz.questions.length - 1 ? (
-                                    <button
-                                        type="button"
-                                        onClick={handleNext}
-                                        className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
-                                    >
-                                        Next →
-                                    </button>
-                                ) : (
-                                    <button
-                                        type="submit"
-                                        disabled={processing}
-                                        className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg disabled:opacity-50"
-                                    >
-                                        Submit Quiz
-                                    </button>
-                                )}
-                            </div>
-                        </form>
+                            ) : (
+                                <button
+                                    type="button"
+                                    onClick={() => post(route('quiz-attempts.store'))}
+                                    disabled={processing}
+                                    className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg disabled:opacity-50"
+                                >
+                                    Submit Quiz
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
