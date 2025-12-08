@@ -22,6 +22,7 @@ export default function Create({ quiz }) {
         setData('options', newOptions);
     };
 
+    // Ensure only one correct answer for single-choice questions
     const handleOptionChange = (index, field, value) => {
         const newOptions = [...data.options];
         newOptions[index][field] = value;
