@@ -23,6 +23,8 @@
         "vite": "^7.0.7"
     },
     "dependencies": {
+        "@mdi/js": "^7.4.47",
+        "@mdi/react": "^1.6.1",
         "recharts": "^3.5.1"
     }
 }

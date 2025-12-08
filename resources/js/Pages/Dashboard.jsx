@@ -1,5 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
+import Icon from '@mdi/react';
+import { mdiChartBar, mdiClipboardText, mdiFileDocument } from '@mdi/js';
 
 export default function Dashboard({ stats, recentAttempts, recentQuizzes }) {
     return (
@@ -14,35 +16,43 @@ export default function Dashboard({ stats, recentAttempts, recentQuizzes }) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
+                    <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-8 text-white mb-6">
+                        <h1 className="text-3xl font-bold mb-2">Welcome to Quiz App!</h1>
+                        <p className="text-blue-100">Test your knowledge, track your progress, and compete with others</p>
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                            <div className="text-gray-500 text-sm">Total Quizzes Taken</div>
-                            <div className="text-3xl font-bold text-gray-900">{stats.total_quizzes || 0}</div>
+                        <div className="bg-white overflow-hidden shadow-lg sm:rounded-lg p-6 border-l-4 border-blue-500">
+                            <div className="text-gray-500 text-sm uppercase tracking-wide">Total Quizzes Taken</div>
+                            <div className="text-4xl font-bold text-blue-600 mt-2">{stats.total_quizzes || 0}</div>
                         </div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                            <div className="text-gray-500 text-sm">Average Score</div>
-                            <div className="text-3xl font-bold text-gray-900">
+                        <div className="bg-white overflow-hidden shadow-lg sm:rounded-lg p-6 border-l-4 border-green-500">
+                            <div className="text-gray-500 text-sm uppercase tracking-wide">Average Score</div>
+                            <div className="text-4xl font-bold text-green-600 mt-2">
                                 {stats.average_score ? stats.average_score.toFixed(1) : '0.0'}%
                             </div>
                         </div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                            <div className="text-gray-500 text-sm">Best Score</div>
-                            <div className="text-3xl font-bold text-gray-900">
+                        <div className="bg-white overflow-hidden shadow-lg sm:rounded-lg p-6 border-l-4 border-yellow-500">
+                            <div className="text-gray-500 text-sm uppercase tracking-wide">Best Score</div>
+                            <div className="text-4xl font-bold text-yellow-600 mt-2">
                                 {stats.best_score ? stats.best_score.toFixed(1) : '0.0'}%
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div className="bg-white overflow-hidden shadow-lg sm:rounded-lg">
                         <div className="p-6">
-                            <h3 className="text-lg font-semibold mb-4">Recent Quiz Attempts</h3>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                                <Icon path={mdiChartBar} size={1.2} className="text-blue-500 mr-2" />
+                                Recent Quiz Attempts
+                            </h3>
                             {recentAttempts.length > 0 ? (
                                 <div className="space-y-3">
                                     {recentAttempts.map(attempt => (
                                         <Link
                                             key={attempt.id}
                                             href={route('quiz-attempts.show', attempt.id)}
-                                            className="block p-4 border rounded hover:bg-gray-50"
+                                            className="block p-4 border-2 border-gray-200 rounded-lg hover:border-blue-400 hover:shadow-md transition-all"
                                         >
                                             <div className="flex justify-between items-center">
                                                 <div>
@@ -73,21 +83,30 @@ export default function Dashboard({ stats, recentAttempts, recentQuizzes }) {
                         </div>
                     </div>
 
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div className="bg-white overflow-hidden shadow-lg sm:rounded-lg">
                         <div className="p-6">
-                            <h3 className="text-lg font-semibold mb-4">Available Quizzes</h3>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                                <Icon path={mdiClipboardText} size={1.2} className="text-green-500 mr-2" />
+                                Available Quizzes
+                            </h3>
                             {recentQuizzes.length > 0 ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {recentQuizzes.map(quiz => (
                                         <Link
                                             key={quiz.id}
                                             href={route('quizzes.show', quiz.id)}
-                                            className="block p-4 border rounded hover:bg-gray-50"
+                                            className="block p-6 border-2 border-gray-200 rounded-lg hover:border-green-400 hover:shadow-lg transition-all bg-gradient-to-br from-white to-gray-50"
                                         >
-                                            <div className="font-medium">{quiz.title}</div>
-                                            <div className="text-sm text-gray-500 mt-1">{quiz.description}</div>
-                                            <div className="text-sm text-gray-400 mt-2">
-                                                {quiz.questions_count} questions
+                                            <div className="font-bold text-lg text-gray-900">{quiz.title}</div>
+                                            <div className="text-sm text-gray-600 mt-2">{quiz.description}</div>
+                                            <div className="mt-4 flex items-center justify-between">
+                                                <span className="text-sm text-gray-500 flex items-center">
+                                                    <Icon path={mdiFileDocument} size={0.7} className="mr-1" />
+                                                    {quiz.questions_count} questions
+                                                </span>
+                                                <span className="text-sm font-semibold text-green-600">
+                                                    Start →
+                                                </span>
                                             </div>
                                         </Link>
                                     ))}
