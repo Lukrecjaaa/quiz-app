@@ -2,6 +2,9 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import SparkleCanvas from '@/Components/SparkleCanvas';
+import CursorTrail from '@/Components/CursorTrail';
+import ClickRipple from '@/Components/ClickRipple';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -13,6 +16,10 @@ export default function AuthenticatedLayout({ header, children }) {
 
     return (
         <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-cute-pink-50 via-pastel-lavender-50 to-pastel-purple-50">
+            <SparkleCanvas />
+            <CursorTrail />
+            <ClickRipple />
+
             <div className="floating-flowers">
                 <span className="flower">🌸</span>
                 <span className="flower">🌺</span>
@@ -46,7 +53,7 @@ export default function AuthenticatedLayout({ header, children }) {
                             {user.is_admin && (
                                 <Link
                                     href={route('admin.dashboard')}
-                                    className="px-4 py-2 bg-white hover:bg-pastel-lavender-50 text-pastel-lavender-500 text-sm font-comfortaa font-bold rounded-full transition shadow-md border-2 border-pastel-lavender-200"
+                                    className="px-4 py-2 bg-white hover:bg-pastel-lavender-50 text-pastel-lavender-500 text-sm font-comfortaa font-bold rounded-full transition shadow-md border-2 border-pastel-lavender-200 hover-glow magical-pulse"
                                 >
                                     Admin Panel
                                 </Link>
@@ -57,7 +64,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center rounded-full border-2 border-cute-pink-200 bg-white px-4 py-2 text-sm font-comfortaa font-bold leading-4 text-cute-pink-400 transition duration-150 ease-in-out hover:bg-cute-pink-50 focus:outline-none shadow-md"
+                                                className="inline-flex items-center rounded-full border-2 border-cute-pink-200 bg-white px-4 py-2 text-sm font-comfortaa font-bold leading-4 text-cute-pink-400 transition duration-150 ease-in-out hover:bg-cute-pink-50 focus:outline-none shadow-md hover-glow"
                                             >
                                                 {user.name}
 

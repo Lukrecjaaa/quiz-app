@@ -1,8 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { useEffect } from 'react';
 import confetti from 'canvas-confetti';
+import SparklyBar from '@/Components/SparklyBar';
 
 export default function Show({ attempt, percentile, scoreDistribution }) {
     const chartData = Object.entries(scoreDistribution).map(([range, count]) => ({
@@ -53,13 +54,13 @@ export default function Show({ attempt, percentile, scoreDistribution }) {
                 <div className="absolute left-10 top-12 text-8xl opacity-10">🌸</div>
                 <div className="absolute right-8 bottom-12 text-7xl opacity-10">🌺</div>
                 <div className="mx-auto max-w-4xl space-y-6 sm:px-6 lg:px-8">
-                    <div className="girly-card overflow-hidden rounded-3xl border-4 border-cute-pink-100 p-8 shadow-2xl polka-dots">
+                    <div className="girly-card overflow-hidden rounded-3xl border-4 border-cute-pink-100 p-8 shadow-2xl polka-dots rainbow-border magical-pulse">
                         <div className="text-center mb-8 relative">
                             <div className="absolute left-4 top-4 text-4xl opacity-30">💖</div>
                             <h3 className="mb-4 text-3xl font-comfortaa font-bold text-pastel-purple-700">
                                 {attempt.quiz.title}
                             </h3>
-                            <div className={`mb-6 text-7xl font-extrabold animate-pulse ${passed ? 'text-cute-pink-500' : 'text-rose-400'}`}>
+                            <div className={`mb-6 text-7xl font-extrabold animate-pulse rainbow-glow ${passed ? 'text-cute-pink-500' : 'text-rose-400'}`}>
                                 {attempt.percentage}%
                             </div>
                             <div className="mb-2 text-xl font-quicksand text-pastel-purple-700">
@@ -89,13 +90,13 @@ export default function Show({ attempt, percentile, scoreDistribution }) {
 
                         <div className="border-t-2 border-cute-pink-100 pt-6">
                             {scoreDistribution && Object.values(scoreDistribution).reduce((sum, count) => sum + count, 0) > 1 && (
-                                <div className="mb-6 rounded-2xl border-2 border-cute-pink-200 bg-gradient-to-r from-cute-pink-50 via-white to-pastel-lavender-50 p-6 shadow-md">
+                                <div className="mb-6 rounded-2xl border-2 border-cute-pink-200 bg-gradient-to-r from-cute-pink-50 via-white to-pastel-lavender-50 p-6 shadow-md hover-glow magical-pulse">
                                     <p className="text-center text-xl font-comfortaa font-bold text-pastel-purple-700">
-                                        You scored better than <span className="text-3xl text-cute-pink-500">{percentile}%</span> of users!
+                                        You scored better than <span className="text-3xl text-cute-pink-500 rainbow-glow">{percentile}%</span> of users!
                                     </p>
                                     <div className="mt-3 h-3 w-full rounded-full bg-white shadow-inner">
                                         <div
-                                            className="h-3 rounded-full bg-gradient-to-r from-cute-pink-400 via-pastel-lavender-400 to-pastel-purple-400 transition-all duration-1000"
+                                            className="h-3 rounded-full bg-gradient-to-r from-cute-pink-400 via-pastel-lavender-400 to-pastel-purple-400 transition-all duration-1000 rainbow-glow"
                                             style={{ width: `${percentile}%` }}
                                         ></div>
                                     </div>
@@ -104,18 +105,53 @@ export default function Show({ attempt, percentile, scoreDistribution }) {
 
                             {scoreDistribution && Object.values(scoreDistribution).reduce((sum, count) => sum + count, 0) > 1 ? (
                                 <>
-                                    <h4 className="mb-4 text-lg font-comfortaa font-semibold text-pastel-purple-700">
+                                    <h4 className="mb-4 text-lg font-comfortaa font-semibold text-pastel-purple-700 rainbow-glow">
                                         Score Distribution
                                     </h4>
-                                    <ResponsiveContainer width="100%" height={300}>
-                                        <BarChart data={chartData}>
-                                            <CartesianGrid strokeDasharray="3 3" />
-                                            <XAxis dataKey="range" />
-                                            <YAxis />
-                                            <Tooltip />
-                                            <Bar dataKey="count" fill="#f17ab8" />
-                                        </BarChart>
-                                    </ResponsiveContainer>
+                                    <div className="rounded-2xl bg-gradient-to-br from-white via-cute-pink-50 to-pastel-lavender-50 p-6 shadow-lg border-2 border-cute-pink-200 magical-pulse">
+                                        <ResponsiveContainer width="100%" height={300}>
+                                            <BarChart data={chartData}>
+                                                <defs>
+                                                    <linearGradient id="gridGradient" x1="0" y1="0" x2="1" y2="0">
+                                                        <stop offset="0%" stopColor="#ec4899" stopOpacity="0.3" />
+                                                        <stop offset="50%" stopColor="#a78bfa" stopOpacity="0.3" />
+                                                        <stop offset="100%" stopColor="#fbbf24" stopOpacity="0.3" />
+                                                    </linearGradient>
+                                                </defs>
+                                                <CartesianGrid
+                                                    strokeDasharray="3 3"
+                                                    stroke="url(#gridGradient)"
+                                                    strokeWidth={2}
+                                                />
+                                                <XAxis
+                                                    dataKey="range"
+                                                    stroke="#a78bfa"
+                                                    style={{ fontWeight: 'bold', fontSize: '12px' }}
+                                                />
+                                                <YAxis
+                                                    stroke="#ec4899"
+                                                    style={{ fontWeight: 'bold', fontSize: '12px' }}
+                                                />
+                                                <Tooltip
+                                                    contentStyle={{
+                                                        background: 'linear-gradient(135deg, #fce7f3 0%, #f3e8ff 100%)',
+                                                        border: '2px solid #ec4899',
+                                                        borderRadius: '12px',
+                                                        fontWeight: 'bold',
+                                                        boxShadow: '0 0 20px rgba(236, 72, 153, 0.5)',
+                                                    }}
+                                                    cursor={{ fill: 'rgba(236, 72, 153, 0.1)' }}
+                                                />
+                                                <Bar
+                                                    dataKey="count"
+                                                    fill="#f17ab8"
+                                                    shape={<SparklyBar />}
+                                                    animationDuration={1500}
+                                                    animationBegin={0}
+                                                />
+                                            </BarChart>
+                                        </ResponsiveContainer>
+                                    </div>
                                 </>
                             ) : (
                                 <div className="py-8 text-center text-pastel-lavender-600">
@@ -201,13 +237,13 @@ export default function Show({ attempt, percentile, scoreDistribution }) {
                     <div className="flex justify-center space-x-4">
                         <Link
                             href={route('quizzes.index')}
-                            className="inline-flex items-center rounded-full border-2 border-cute-pink-200 bg-gradient-to-r from-cute-pink-400 via-cute-pink-500 to-pastel-purple-400 px-6 py-2 font-comfortaa font-bold text-white shadow-lg transition hover:scale-105"
+                            className="inline-flex items-center rounded-full border-2 border-cute-pink-200 bg-gradient-to-r from-cute-pink-400 via-cute-pink-500 to-pastel-purple-400 px-6 py-2 font-comfortaa font-bold text-white shadow-lg transition hover:scale-105 hover-glow-intense magical-pulse"
                         >
                             Take Another Quiz
                         </Link>
                         <Link
                             href={route('quiz-attempts.my')}
-                            className="inline-flex items-center rounded-full border-2 border-pastel-lavender-200 bg-white/80 px-6 py-2 font-comfortaa font-semibold text-pastel-purple-600 shadow-md transition hover:scale-105 hover:bg-pastel-lavender-50"
+                            className="inline-flex items-center rounded-full border-2 border-pastel-lavender-200 bg-white/80 px-6 py-2 font-comfortaa font-semibold text-pastel-purple-600 shadow-md transition hover:scale-105 hover:bg-pastel-lavender-50 hover-glow"
                         >
                             View All Attempts
                         </Link>

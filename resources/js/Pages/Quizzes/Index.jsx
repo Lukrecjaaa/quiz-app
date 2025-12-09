@@ -23,7 +23,7 @@ export default function Index({ quizzes }) {
                                 <Link
                                     key={quiz.id}
                                     href={route('quizzes.show', quiz.id)}
-                                    className="girly-card relative overflow-hidden rounded-3xl p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl polka-dots-large"
+                                    className="girly-card relative overflow-hidden rounded-3xl p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl polka-dots-large hover-glow-intense magical-pulse rainbow-border"
                                 >
                                     <div className="absolute -right-3 -top-3 text-5xl opacity-25">🌷</div>
                                     <h3 className="mb-2 text-xl font-comfortaa font-bold text-pastel-purple-700">
@@ -36,7 +36,7 @@ export default function Index({ quizzes }) {
                                         <span className="inline-flex items-center gap-1 rounded-full bg-white/70 px-3 py-1 font-semibold shadow-sm">
                                             {quiz.questions_count} questions
                                         </span>
-                                        <span className="rounded-full bg-gradient-to-r from-cute-pink-300 to-pastel-lavender-300 px-4 py-2 font-comfortaa font-bold text-white shadow-lg">
+                                        <span className="rounded-full bg-gradient-to-r from-cute-pink-300 to-pastel-lavender-300 px-4 py-2 font-comfortaa font-bold text-white shadow-lg rainbow-glow">
                                             View Quiz →
                                         </span>
                                     </div>
