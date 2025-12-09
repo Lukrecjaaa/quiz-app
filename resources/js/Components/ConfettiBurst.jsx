@@ -11,7 +11,7 @@ const ConfettiBurst = forwardRef((props, ref) => {
     }));
 
     const createBurst = (x, y) => {
-        const particleCount = 50; // MAXIMUM CONFETTI!!
+        const particleCount = 35; // MAXIMUM CONFETTI!!
 
         for (let i = 0; i < particleCount; i++) {
             const angle = (Math.PI * 2 * i) / particleCount;
@@ -68,9 +68,8 @@ const ConfettiBurst = forwardRef((props, ref) => {
                 ctx.rotate(particle.rotation);
                 ctx.globalAlpha = particle.life;
 
-                // Draw confetti
                 ctx.fillStyle = particle.color;
-                ctx.shadowBlur = 10;
+                ctx.shadowBlur = 6;
                 ctx.shadowColor = particle.color;
 
                 if (particle.shape === 'circle') {
@@ -101,7 +100,7 @@ const ConfettiBurst = forwardRef((props, ref) => {
         <canvas
             ref={canvasRef}
             className="fixed inset-0 pointer-events-none z-30"
-            style={{ mixBlendMode: 'normal' }}
+            style={{ mixBlendMode: 'normal', willChange: 'transform', transform: 'translate3d(0,0,0)' }}
         />
     );
 });

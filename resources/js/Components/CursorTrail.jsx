@@ -4,6 +4,7 @@ export default function CursorTrail() {
     const canvasRef = useRef(null);
     const particles = useRef([]);
     const mouse = useRef({ x: 0, y: 0 });
+    const lastSpawn = useRef(0);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -19,13 +20,16 @@ export default function CursorTrail() {
         setCanvasSize();
         window.addEventListener('resize', setCanvasSize);
 
-        // Track mouse movement
         const handleMouseMove = (e) => {
             mouse.current.x = e.clientX;
             mouse.current.y = e.clientY;
 
-            // Create trail particles on movement
-            for (let i = 0; i < 3; i++) {
+            // Throttle particle spawning
+            const now = Date.now();
+            if (now - lastSpawn.current < 50) return;
+            lastSpawn.current = now;
+
+            for (let i = 0; i < 2; i++) {
                 particles.current.push({
                     x: e.clientX + (Math.random() - 0.5) * 20,
                     y: e.clientY + (Math.random() - 0.5) * 20,
@@ -34,8 +38,8 @@ export default function CursorTrail() {
                     speedY: (Math.random() - 0.5) * 2,
                     life: 1,
                     decay: Math.random() * 0.03 + 0.02,
-                    color: ['#ec4899', '#f472b6', '#a78bfa', '#c4b5fd', '#ffffff', '#fbbf24'][
-                        Math.floor(Math.random() * 6)
+                    color: ['#ec4899', '#f472b6', '#a78bfa', '#c4b5fd', '#fbbf24', '#fcd5b5', '#b5f5f5', '#e5c5f5'][
+                        Math.floor(Math.random() * 8)
                     ],
                     rotation: Math.random() * Math.PI * 2,
                 });
@@ -63,9 +67,8 @@ export default function CursorTrail() {
                 ctx.rotate(particle.rotation);
                 ctx.globalAlpha = particle.life;
 
-                // Draw sparkle
                 ctx.fillStyle = particle.color;
-                ctx.shadowBlur = 15;
+                ctx.shadowBlur = 8;
                 ctx.shadowColor = particle.color;
 
                 // Star shape
@@ -106,7 +109,7 @@ export default function CursorTrail() {
         <canvas
             ref={canvasRef}
             className="fixed inset-0 pointer-events-none z-20"
-            style={{ mixBlendMode: 'screen' }}
+            style={{ mixBlendMode: 'normal', willChange: 'transform', transform: 'translate3d(0,0,0)' }}
         />
     );
 }

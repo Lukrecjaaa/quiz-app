@@ -18,8 +18,7 @@ export default function ClickRipple() {
         window.addEventListener('resize', setCanvasSize);
 
         const handleClick = (e) => {
-            // Create multiple ripples for extra sparkle
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < 2; i++) {
                 setTimeout(() => {
                     ripples.current.push({
                         x: e.clientX,
@@ -33,8 +32,7 @@ export default function ClickRipple() {
                 }, i * 50);
             }
 
-            // Add burst particles
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 10; i++) {
                 const angle = (Math.PI * 2 * i) / 15;
                 const speed = Math.random() * 3 + 2;
                 ripples.current.push({
@@ -68,7 +66,7 @@ export default function ClickRipple() {
                     ctx.save();
                     ctx.globalAlpha = ripple.life;
                     ctx.fillStyle = ripple.color;
-                    ctx.shadowBlur = 10;
+                    ctx.shadowBlur = 6;
                     ctx.shadowColor = ripple.color;
                     ctx.beginPath();
                     ctx.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2);
@@ -87,7 +85,7 @@ export default function ClickRipple() {
                     ctx.globalAlpha = ripple.life;
                     ctx.strokeStyle = ripple.color;
                     ctx.lineWidth = ripple.lineWidth;
-                    ctx.shadowBlur = 20;
+                    ctx.shadowBlur = 12;
                     ctx.shadowColor = ripple.color;
                     ctx.beginPath();
                     ctx.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2);
@@ -114,7 +112,7 @@ export default function ClickRipple() {
         <canvas
             ref={canvasRef}
             className="fixed inset-0 pointer-events-none z-25"
-            style={{ mixBlendMode: 'screen' }}
+            style={{ mixBlendMode: 'screen', willChange: 'transform', transform: 'translate3d(0,0,0)' }}
         />
     );
 }

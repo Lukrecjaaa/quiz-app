@@ -9,7 +9,7 @@ export default function SparkleCanvas() {
 
         const ctx = canvas.getContext('2d');
         const particles = [];
-        const particleCount = 80; // LOTS OF SPARKLES!!
+        const particleCount = 50; // LOTS OF SPARKLES!!
 
         // Set canvas size
         const setCanvasSize = () => {
@@ -19,7 +19,6 @@ export default function SparkleCanvas() {
         setCanvasSize();
         window.addEventListener('resize', setCanvasSize);
 
-        // Sparkle particle class
         class Sparkle {
             constructor() {
                 this.reset();
@@ -37,15 +36,14 @@ export default function SparkleCanvas() {
                 this.rotation = Math.random() * Math.PI * 2;
                 this.rotationSpeed = Math.random() * 0.05 - 0.025;
 
-                // Random sparkle colors - pink, purple, lavender, white
                 const colors = [
-                    '#ec4899', // pink
-                    '#f472b6', // lighter pink
-                    '#a78bfa', // purple
-                    '#c4b5fd', // lavender
-                    '#ffffff', // white
-                    '#fbbf24', // gold
-                    '#fde047', // yellow
+                    '#ec4899',
+                    '#f472b6',
+                    '#a78bfa',
+                    '#c4b5fd',
+                    '#ffffff',
+                    '#fbbf24',
+                    '#fde047',
                 ];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
             }
@@ -55,7 +53,6 @@ export default function SparkleCanvas() {
                 this.y += this.speedY;
                 this.rotation += this.rotationSpeed;
 
-                // Twinkle effect
                 if (this.growing) {
                     this.opacity += this.fadeSpeed;
                     if (this.opacity >= 1) this.growing = false;
@@ -64,7 +61,6 @@ export default function SparkleCanvas() {
                     if (this.opacity <= 0.1) this.growing = true;
                 }
 
-                // Wrap around edges
                 if (this.x < 0) this.x = canvas.width;
                 if (this.x > canvas.width) this.x = 0;
                 if (this.y < 0) this.y = canvas.height;
@@ -77,12 +73,10 @@ export default function SparkleCanvas() {
                 ctx.rotate(this.rotation);
                 ctx.globalAlpha = this.opacity;
 
-                // Draw sparkle star shape
                 ctx.fillStyle = this.color;
-                ctx.shadowBlur = 10;
+                ctx.shadowBlur = 6;
                 ctx.shadowColor = this.color;
 
-                // 4-pointed star
                 ctx.beginPath();
                 for (let i = 0; i < 4; i++) {
                     const angle = (Math.PI / 2) * i;
@@ -94,7 +88,6 @@ export default function SparkleCanvas() {
                 ctx.closePath();
                 ctx.fill();
 
-                // Add a center glow
                 ctx.beginPath();
                 ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
                 ctx.fill();
@@ -103,12 +96,10 @@ export default function SparkleCanvas() {
             }
         }
 
-        // Create sparkles
         for (let i = 0; i < particleCount; i++) {
             particles.push(new Sparkle());
         }
 
-        // Animation loop
         let animationId;
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -133,7 +124,7 @@ export default function SparkleCanvas() {
         <canvas
             ref={canvasRef}
             className="fixed inset-0 pointer-events-none z-10"
-            style={{ mixBlendMode: 'screen' }}
+            style={{ mixBlendMode: 'screen', willChange: 'transform', transform: 'translate3d(0,0,0)' }}
         />
     );
 }
